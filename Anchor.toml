@@ -1,0 +1,21 @@
+[toolchain]
+package_manager = "pnpm"
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+parity = "3drNH9yAW1yum78fo2ire96LXLcqzHUFzdkwDpdK3Zrh"
+
+[programs.devnet]
+parity = "3drNH9yAW1yum78fo2ire96LXLcqzHUFzdkwDpdK3Zrh"
+
+[provider]
+cluster = "devnet"
+wallet = ".keys/deployer.json"
+
+[scripts]
+test = "cargo test -p parity"
+
+[hooks]

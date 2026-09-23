@@ -1,0 +1,14 @@
+{
+  "name": "parity",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @parity/app dev",
+    "build": "pnpm --filter @parity/app build",
+    "keeper": "pnpm --filter @parity/keeper start",
+    "test": "pnpm -r --if-present test",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "program:test": "cargo test -p parity",
+    "idl:sync": "cp target/idl/parity.json packages/sdk/src/idl/parity.json && cp target/types/parity.ts packages/sdk/src/idl/parity.ts"
+  },
+  "packageManager": "pnpm@11.10.0"
+}
