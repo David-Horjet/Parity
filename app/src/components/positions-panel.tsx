@@ -9,7 +9,9 @@ import { useTrades } from "@/hooks/use-data";
 import { useTradeActions } from "@/hooks/use-trade";
 import { explorerTx } from "@/lib/config";
 import { pct, price, signedUsd, usd } from "@/lib/format";
+import { cardFromPosition, cardFromTrade } from "@/lib/pnl-card";
 import type { LivePosition } from "@/lib/position";
+import { PnlShareButton } from "./pnl-share";
 import { TokenLogo } from "./token-logo";
 
 const th = "px-3 py-2 text-left text-[11px] font-normal uppercase tracking-wider text-dim whitespace-nowrap";
@@ -71,6 +73,7 @@ export function PositionsTable({ positions, compact = false }: { positions: Live
                   </td>
                   {!compact && <td className={`${td} text-muted`}>{signedUsd(-p.funding)}</td>}
                   <td className={`${td} text-right`}>
+                    <PnlShareButton card={cardFromPosition(p)} className="mr-3 align-middle" />
                     <button
                       onClick={() => close(p.market, p.position.side)}
                       disabled={!!pending}
@@ -131,9 +134,12 @@ export function HistoryTable({ address }: { address: string | null }) {
               </td>
               <td className={`${td} text-muted`}>{t.fee !== null ? usd(t.fee) : "–"}</td>
               <td className={td}>
-                <a href={explorerTx(t.signature)} target="_blank" rel="noreferrer" className="text-dim hover:text-accent">
-                  <HugeiconsIcon icon={ArrowUpRight01Icon} size={14} />
-                </a>
+                <div className="flex items-center gap-3">
+                  <PnlShareButton card={cardFromTrade(t)} />
+                  <a href={explorerTx(t.signature)} target="_blank" rel="noreferrer" className="text-dim hover:text-accent">
+                    <HugeiconsIcon icon={ArrowUpRight01Icon} size={14} />
+                  </a>
+                </div>
               </td>
             </tr>
           ))}

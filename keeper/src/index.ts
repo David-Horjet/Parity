@@ -210,6 +210,11 @@ function every(ms: number, name: string, fn: () => Promise<void>) {
   return setInterval(tick, ms);
 }
 
+// RPC and API calls fail transiently (timeouts, 429s); a long-running keeper
+// must log those and keep going rather than exit.
+process.on("unhandledRejection", (err) => log("keeper", "unhandled rejection", (err as Error)?.message ?? err));
+process.on("uncaughtException", (err) => log("keeper", "uncaught exception", err.message));
+
 async function main() {
   log("keeper", `keeper ${keeper.publicKey.toBase58()} program ${PROGRAM_ID.toBase58()}`);
   await refreshMarkets();
