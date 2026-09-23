@@ -63,7 +63,7 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` dropped
 
 ## Phase 2 — Anchor program (P0)
 
-- [x] State: `Protocol`, `Market`, `PriceFeed`, `Position`, vault PDAs
+- [x] State: `Protocol`, `Market` (price feed lives in the market account), `Position`, `LpPosition`, vault PDAs
 - [x] `initialize_protocol`, `create_market`, `update_market_config`, `pause_market`
 - [x] `update_price` — authorized publisher, staleness, max-move guard
 - [x] `deposit_liquidity` (seed vault) — needed for OI cap
@@ -71,7 +71,8 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` dropped
 - [x] `close_position` — fixed-point PnL, fee, payout capped by vault
 - [x] `liquidate` — permissionless, liquidator reward, remainder to vault/insurance
 - [x] Events emitted for open/close/liquidate
-- [x] Tests: long, short, close both, stale price, unauthorized publisher/admin, wrong mint, max OI, liquidation paths, overflow
+- [x] Tests: long, short, close both, add-to-position, stale price, unauthorized publisher/admin, wrong owner close, leverage/size/OI/liquidity caps, liquidation, price clamp, funding, pause
+- [ ] Tests still missing: wrong collateral mint, explicit overflow cases
 - [x] Deploy to devnet
 
 ## Phase 3 — Keeper (P0)
@@ -83,19 +84,19 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` dropped
 
 ## Phase 4 — Supabase (P0)
 
-- [x] Tables: `markets`, `prices`, `trades`, `positions_history`
+- [x] Tables: `markets`, `prices`, `trades` (open/close/liquidate history), `keeper_state`, `faucet_claims`
 - [x] RLS: public read, service-role write
 - [x] Price history for charts (GeckoTerminal candles, scaled-UI aware) + keeper `prices` table
 
 ## Phase 5 — Frontend (P0)
 
 - [x] Next.js + Tailwind + Roboto/Playfair + Framer Motion + Hugeicons, `#081231` dark theme
-- [x] Privy Solana wallet connect
+- [x] Privy Solana wallet connect (external + embedded). Login flow not yet tested in a real browser
 - [x] USDC faucet button (devnet)
 - [x] Market selector + mark price + implied valuation + premium
 - [x] Price chart
-- [x] Trade panel: margin, leverage, LONG/SHORT, size, fee, liq price, confirm modal
-- [x] Open position card with live PnL + CLOSE
+- [x] Trade panel: margin, leverage, LONG/SHORT, size, entry, fee, liq price, total (wallet prompt is the confirm step; no extra modal)
+- [x] Positions table with live PnL/ROE, liq price, funding + CLOSE; entry/liq lines on chart
 - [x] Portfolio: balance, available/used margin, uPnL
 - [x] Trade history
 - [ ] Deploy to Vercel
