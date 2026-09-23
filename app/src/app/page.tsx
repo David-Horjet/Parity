@@ -41,18 +41,18 @@ export default function Home() {
   const { data: markets } = useMarkets();
   return (
     <main>
-      {/* Pulled up under the translucent header so the glow reaches the top edge. */}
-      <section className="hero-gradient grain relative overflow-hidden sm:-mt-14 sm:pt-14">
+      {/* Pulled up under the transparent header (h-14, plus the h-9 mobile nav row) so the header sits on the hero. */}
+      <section className="hero-gradient grain relative -mt-23 overflow-hidden pt-23 sm:-mt-14 sm:pt-14">
         <div className="relative z-10 mx-auto max-w-6xl px-4 pt-16 text-center sm:pt-28">
-          <motion.p
+          {/* <motion.p
             {...rise(0)}
             className="glass mx-auto inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs text-pearl"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-long shadow-[0_0_8px_var(--color-long)]" /> The derivatives layer for PreStocks
-          </motion.p>
+          </motion.p> */}
           <motion.h1
             {...rise(0.05)}
-            className="mx-auto mt-7 max-w-4xl text-5xl font-medium leading-[1.05] tracking-[-0.035em] sm:text-7xl"
+            className="mx-auto mt-3 max-w-4xl text-5xl font-medium leading-[1.05] tracking-[-0.035em] sm:text-7xl"
           >
             Trade private companies with{" "}
             <span className="bg-linear-to-r from-ink via-pearl to-[#9aa6ff] bg-clip-text pr-1 font-display font-medium italic text-transparent">
@@ -68,7 +68,7 @@ export default function Home() {
           </motion.div>
         </div>
 
-        <motion.div {...rise(0.25)} className="relative z-10 mt-16 border-y border-white/6 bg-white/2 py-4 backdrop-blur-md sm:mt-24">
+        <motion.div {...rise(0.25)} className="relative z-10 mt-16 sm:mt-24">
           <PriceMarquee markets={markets} />
         </motion.div>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-b from-transparent to-bg" />

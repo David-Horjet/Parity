@@ -28,8 +28,10 @@ export function Providers({ children }: { children: ReactNode }) {
       appId={PRIVY_APP_ID}
       config={{
         appearance: {
-          theme: "#151515",
+          theme: "#0f0f11",
           accentColor: "#fdfdfd",
+          landingHeader: "Connect to Parity",
+          loginMessage: "Trade pre-IPO companies with leverage, 24/7 on Solana.",
           walletChainType: "solana-only",
           logo: "/images/logos/parity-full-white-logo-nobg.png",
           showWalletLoginFirst: true,

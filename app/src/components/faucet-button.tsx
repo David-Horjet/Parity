@@ -1,7 +1,7 @@
 "use client";
 
 import { HugeiconsIcon } from "@hugeicons/react";
-import { DropletIcon, Loading03Icon, Tick02Icon } from "@hugeicons/core-free-icons";
+import { DropletIcon, Loading03Icon } from "@hugeicons/core-free-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParityWallet } from "@/hooks/use-wallet";
@@ -78,11 +78,7 @@ export function FaucetButton() {
       className="flex h-9 items-center gap-1.5 rounded-lg border border-line bg-white/3 px-3 text-sm text-muted transition hover:border-line-strong hover:text-ink disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:border-line disabled:hover:text-muted"
       title={cooldownLabel ? `Claimed today. Next claim in ${cooldownLabel}` : "Get devnet test USDC (once per day)"}
     >
-      <HugeiconsIcon
-        icon={loading ? Loading03Icon : cooldownLabel ? Tick02Icon : DropletIcon}
-        size={16}
-        className={loading ? "animate-spin" : ""}
-      />
+      <HugeiconsIcon icon={loading ? Loading03Icon : DropletIcon} size={16} className={loading ? "animate-spin" : ""} />
       <span className="num hidden sm:inline">{cooldownLabel ? cooldownLabel : "Faucet"}</span>
     </button>
   );

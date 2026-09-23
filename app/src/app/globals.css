@@ -131,6 +131,61 @@ body::before {
   }
 }
 
+/* Privy's login modal. Privy injects its palette into :root at runtime, so the doubled selector outranks it. */
+:root:root {
+  --privy-color-background: #0f0f11;
+  --privy-color-background-2: #18181b;
+  --privy-color-background-3: #232327;
+  --privy-color-background-hover: rgb(255 255 255 / 0.06);
+  --privy-color-background-clicked: rgb(255 255 255 / 0.1);
+  --privy-color-foreground: #fdfdfd;
+  --privy-color-foreground-2: #d4d4d4;
+  --privy-color-foreground-3: #a3a3a3;
+  /* Privy uses this for wallet-row borders as well as faint text; keep it a hairline. */
+  --privy-color-foreground-4: #3f3f46;
+  --privy-color-foreground-accent: #050505;
+  --privy-color-accent: #fdfdfd;
+  --privy-color-accent-light: #ffffff;
+  --privy-color-accent-dark: #d4d4d4;
+  --privy-color-border-default: rgb(255 255 255 / 0.08);
+  --privy-color-border-interactive: rgb(255 255 255 / 0.14);
+  --privy-color-border-interactive-hover: rgb(255 255 255 / 0.24);
+  --privy-color-border-focus: rgb(79 99 255 / 0.55);
+  --privy-color-success: #2fe0a2;
+  --privy-color-error: #ff5d7d;
+  --privy-border-radius-xs: 8px;
+  --privy-border-radius-sm: 10px;
+  --privy-border-radius-md: 14px;
+  --privy-border-radius-mdlg: 18px;
+  --privy-border-radius-lg: 24px;
+}
+
+#privy-dialog-backdrop {
+  background: rgb(0 0 0 / 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+#privy-modal-content {
+  position: relative;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 40px 100px -24px rgb(0 0 0 / 0.9),
+    0 0 80px -30px rgb(79 99 255 / 0.45);
+}
+
+/* An inner panel paints the solid background, so the brand glow sits on top and only lightens. */
+#privy-modal-content::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(110% 45% at 50% -8%, rgb(79 99 255 / 0.28), transparent 70%);
+  mix-blend-mode: screen;
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
