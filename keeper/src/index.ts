@@ -4,6 +4,7 @@
  *  - liquidates unhealthy positions
  *  - indexes trade events and price history into Supabase
  */
+import { createServer } from "node:http";
 import { createClient } from "@supabase/supabase-js";
 import {
   createAssociatedTokenAccountIdempotentInstruction,
@@ -215,7 +216,33 @@ function every(ms: number, name: string, fn: () => Promise<void>) {
 process.on("unhandledRejection", (err) => log("keeper", "unhandled rejection", (err as Error)?.message ?? err));
 process.on("uncaughtException", (err) => log("keeper", "uncaught exception", err.message));
 
+// Free web hosts (Render) require a bound port and sleep without traffic;
+// an uptime pinger hitting /health keeps the keeper awake.
+function serveHealth() {
+  const port = Number(process.env.PORT) || 8080;
+  const startedAt = Date.now();
+  createServer((req, res) => {
+    const path = req.url?.split("?")[0];
+    if (path !== "/" && path !== "/health") {
+      res.writeHead(404).end();
+      return;
+    }
+    const body =
+      path === "/health"
+        ? { ok: true }
+        : {
+            service: "parity-keeper",
+            keeper: keeper.publicKey.toBase58(),
+            program: PROGRAM_ID.toBase58(),
+            markets: [...tracked.keys()],
+            uptimeSecs: Math.floor((Date.now() - startedAt) / 1000),
+          };
+    res.writeHead(200, { "content-type": "application/json" }).end(JSON.stringify(body));
+  }).listen(port, () => log("http", `listening on :${port}`));
+}
+
 async function main() {
+  serveHealth();
   log("keeper", `keeper ${keeper.publicKey.toBase58()} program ${PROGRAM_ID.toBase58()}`);
   await refreshMarkets();
   subscribeEvents();
