@@ -30,7 +30,8 @@ export function getProgram(connection: Connection, payer: PublicKey = PublicKey.
 }
 
 export const sideArg = (side: Side) => (side === "long" ? { long: {} } : { short: {} });
-export const sideFromArg = (v: object): Side => ("long" in v ? "long" : "short");
+/** Enum variants decode as `long` from the camelCased IDL and `Long` from raw event logs. */
+export const sideFromArg = (v: object): Side => (Object.keys(v)[0]?.toLowerCase() === "long" ? "long" : "short");
 
 export const bn = (v: bigint | number) => new BN(v.toString());
 export const big = (v: BN | { toString(): string }) => BigInt(v.toString());

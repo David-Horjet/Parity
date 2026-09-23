@@ -6,6 +6,8 @@
   "scripts": {
     "start": "tsx src/index.ts",
     "bootstrap": "tsx src/bootstrap.ts",
+    "backfill": "tsx scripts/backfill.ts",
+    "e2e": "tsx scripts/e2e.ts",
     "typecheck": "tsc -p ."
   },
   "dependencies": {

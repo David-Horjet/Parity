@@ -10,6 +10,7 @@ import {
   projectedFundingIndex,
   qtyFor,
   quoteOpen,
+  sideFromArg,
   symbolBytes,
 } from "../src";
 
@@ -63,6 +64,12 @@ describe("math mirrors the program", () => {
     expect(acceptablePrice("short", true, usd(100), 100)).toBe(usd(99));
     expect(acceptablePrice("long", false, usd(100), 100)).toBe(usd(99));
     expect(acceptablePrice("short", false, usd(100), 100)).toBe(usd(101));
+  });
+
+  it("decodes side enums from both IDL casings", () => {
+    expect(sideFromArg({ long: {} })).toBe("long");
+    expect(sideFromArg({ Long: {} })).toBe("long");
+    expect(sideFromArg({ Short: {} })).toBe("short");
   });
 
   it("pdas and symbols", () => {
