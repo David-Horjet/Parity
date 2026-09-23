@@ -67,7 +67,17 @@ export async function GET(req: Request, ctx: { params: Promise<{ symbol: string 
             low: Math.max(l! / m, bottom * (1 - MAX_WICK)),
           };
         })
-        .sort((a, b) => a.time - b.time);
+        .sort((a, b) => a.time - b.time)
+        .reduce<Candle[]>((out, k) => {
+          // GeckoTerminal occasionally repeats a bucket; the chart needs strictly ascending times.
+          const prev = out[out.length - 1];
+          if (prev?.time === k.time) {
+            prev.close = k.close;
+            prev.high = Math.max(prev.high, k.high);
+            prev.low = Math.min(prev.low, k.low);
+          } else out.push(k);
+          return out;
+        }, []);
     });
     return json({ candles });
   } catch (err) {

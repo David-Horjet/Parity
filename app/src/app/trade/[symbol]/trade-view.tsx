@@ -43,7 +43,7 @@ export function TradeView({ symbol }: { symbol: string }) {
   return (
     <main className="mx-auto grid max-w-[1600px] grid-cols-[minmax(0,1fr)] gap-3 p-3 lg:grid-cols-[minmax(0,1fr)_360px]">
       <section className="flex min-w-0 flex-col gap-3">
-        <div className="flex flex-col gap-3 rounded-2xl panel p-2 md:flex-row md:items-center">
+        <div className="relative z-20 flex flex-col gap-3 rounded-2xl panel p-2 md:flex-row md:items-center">
           <MarketSelector markets={markets} current={market} />
           <div className="hidden h-8 w-px bg-line md:block" />
           <div className="min-w-0 flex-1">
