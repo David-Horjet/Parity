@@ -95,3 +95,28 @@ export function quoteOpen(
 
 export const toUsd = (v: bigint) => Number(v) / 1e6;
 export const fromUsd = (v: number) => BigInt(Math.round(v * 1e6));
+
+export interface BookState extends FundingState {
+  longQty: bigint;
+  shortQty: bigint;
+  longFundingEntry: bigint;
+  shortFundingEntry: bigint;
+  totalMargin: bigint;
+  price: bigint;
+}
+
+/** Aggregate trader claim on the vault (mirrors trader_claims in math.rs). */
+export function traderClaims(m: BookState, index = m.fundingIndex) {
+  return (
+    m.totalMargin +
+    pnl("long", m.longSize, m.longQty, m.price) +
+    pnl("short", m.shortSize, m.shortQty, m.price) -
+    fundingOwed("long", m.longSize, m.longFundingEntry, index) -
+    fundingOwed("short", m.shortSize, m.shortFundingEntry, index)
+  );
+}
+
+export function lpNav(m: BookState, vaultBalance: bigint, index = m.fundingIndex) {
+  const nav = vaultBalance - traderClaims(m, index);
+  return nav > 0n ? nav : 0n;
+}

@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #081231;
+  --color-panel: #0b1740;
+  --color-panel-2: #0f1e4d;
+  --color-raise: #14275e;
+  --color-line: rgb(140 160 255 / 0.12);
+  --color-line-strong: rgb(140 160 255 / 0.22);
+  --color-ink: #eaeeff;
+  --color-muted: #8f99cc;
+  --color-dim: #5d6899;
+  --color-accent: #7c8cff;
+  --color-long: #2fe0a2;
+  --color-short: #ff5d7d;
+  --color-warn: #ffc15c;
+  --font-sans: var(--font-roboto), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), ui-serif, Georgia, serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgb(124 140 255 / 0.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgb(47 224 162 / 0.05), transparent 60%),
+    var(--color-bg);
+  min-height: 100dvh;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="range"].lev {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--track-color) 0%, var(--track-color) var(--fill), rgb(140 160 255 / 0.15) var(--fill));
+  outline: none;
+}
+input[type="range"].lev::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  border: 3px solid var(--track-color);
+  cursor: pointer;
+}
+input[type="range"].lev::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  border: 3px solid var(--track-color);
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(140 160 255 / 0.15);
+  border-radius: 8px;
+}

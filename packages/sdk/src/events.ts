@@ -28,6 +28,8 @@ export interface TradeRow {
 const parser = new EventParser(PROGRAM_ID, new BorshCoder(idl as Parity));
 const usd = (v: unknown) => Number(big(v as { toString(): string })) / 1e6;
 const key = (v: unknown) => (v as PublicKey).toBase58();
+const camel = (o: Record<string, unknown>) =>
+  Object.fromEntries(Object.entries(o).map(([k, v]) => [k.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase()), v]));
 const iso = (v: unknown) => new Date(Number(big(v as { toString(): string })) * 1000).toISOString();
 
 /** Trade rows from a transaction's logs. Liquidity events are ignored. */
@@ -40,7 +42,7 @@ export function parseTradeEvents(
   let index = 0;
   for (const ev of parser.parseLogs(logs)) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const d = ev.data as any;
+    const d = camel(ev.data as Record<string, unknown>) as any;
     const name = ev.name.charAt(0).toLowerCase() + ev.name.slice(1);
     const base = {
       signature,

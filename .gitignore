@@ -13,3 +13,5 @@ test-ledger
 .next
 dist
 *.log
+next-env.d.ts
+*.tsbuildinfo
