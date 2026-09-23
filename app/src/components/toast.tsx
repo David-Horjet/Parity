@@ -62,7 +62,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, x: 40 }}
               transition={{ type: "spring", stiffness: 420, damping: 32 }}
-              className="pointer-events-auto rounded-xl border border-line bg-panel-2/95 p-3 shadow-2xl backdrop-blur"
+              className="pointer-events-auto rounded-xl popover p-3"
             >
               <div className="flex items-start gap-3">
                 <span

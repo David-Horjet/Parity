@@ -39,7 +39,7 @@ export function WalletButton() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex h-9 items-center gap-2 rounded-lg border border-line bg-panel px-3 text-sm transition hover:border-line-strong"
+        className="flex h-9 items-center gap-2 rounded-lg border border-line bg-white/3 px-3 text-sm transition hover:border-line-strong"
       >
         <span className="num hidden text-muted sm:inline">{balances ? usd(fromRaw(balances.usdc)) : "…"}</span>
         <span className="h-2 w-2 rounded-full bg-long" />
@@ -52,7 +52,7 @@ export function WalletButton() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.12 }}
-            className="absolute right-0 mt-2 w-64 rounded-xl border border-line bg-panel-2 p-2 shadow-2xl"
+            className="absolute right-0 mt-2 w-64 rounded-xl popover p-2"
           >
             <div className="px-2 py-2">
               <p className="text-xs text-muted">Balance</p>

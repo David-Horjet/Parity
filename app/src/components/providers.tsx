@@ -28,10 +28,10 @@ export function Providers({ children }: { children: ReactNode }) {
       appId={PRIVY_APP_ID}
       config={{
         appearance: {
-          theme: "#081231",
-          accentColor: "#7c8cff",
+          theme: "#151515",
+          accentColor: "#fdfdfd",
           walletChainType: "solana-only",
-          logo: "/parity-wordmark.svg",
+          logo: "/images/logos/parity-full-white-logo-nobg.png",
           showWalletLoginFirst: true,
           walletList: ["phantom", "solflare", "backpack", "detected_solana_wallets"],
         },

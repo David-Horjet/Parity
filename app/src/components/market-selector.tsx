@@ -49,9 +49,9 @@ export function MarketSelector({ markets, current }: { markets: MarketDTO[]; cur
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.14 }}
-            className="absolute left-0 z-30 mt-2 w-[min(440px,calc(100vw-2rem))] rounded-xl border border-line bg-panel-2 p-2 shadow-2xl"
+            className="absolute left-0 z-30 mt-2 w-[min(440px,calc(100vw-2rem))] rounded-xl popover p-2"
           >
-            <label className="mb-2 flex items-center gap-2 rounded-lg border border-line bg-panel px-3 py-2">
+            <label className="mb-2 flex items-center gap-2 rounded-lg border border-line bg-bg/40 px-3 py-2">
               <HugeiconsIcon icon={Search01Icon} size={16} className="text-dim" />
               <input
                 autoFocus

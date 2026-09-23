@@ -41,7 +41,7 @@ function VaultRow({ market, shares, usdc }: { market: MarketDTO; shares: bigint;
   };
 
   return (
-    <div className="rounded-2xl border border-line bg-panel/70">
+    <div className="rounded-2xl panel">
       <button onClick={() => setOpen((o) => !o)} className="grid w-full grid-cols-2 items-center gap-4 p-4 text-left sm:grid-cols-6">
         <span className="col-span-2 flex items-center gap-3 sm:col-span-2">
           <TokenLogo src={market.image} symbol={market.symbol} size={30} />
@@ -82,14 +82,14 @@ function VaultRow({ market, shares, usdc }: { market: MarketDTO; shares: bigint;
                 <p className="num text-xs">Share price {usd(sharePrice, 4)}</p>
               </div>
               <div className="space-y-3">
-                <div className="grid grid-cols-2 rounded-lg bg-panel p-1 text-sm">
+                <div className="grid grid-cols-2 rounded-lg bg-panel-2 p-1 text-sm">
                   {(["deposit", "withdraw"] as const).map((m) => (
                     <button key={m} onClick={() => setMode(m)} className={`rounded-md py-1.5 capitalize ${mode === m ? "bg-raise text-ink" : "text-muted"}`}>
                       {m}
                     </button>
                   ))}
                 </div>
-                <label className="flex items-center gap-2 rounded-xl border border-line bg-panel px-3 py-2.5">
+                <label className="flex items-center gap-2 rounded-xl border border-line bg-panel-2 px-3 focus-within:border-line-strong py-2.5">
                   <input
                     type="number"
                     min="0"
@@ -132,7 +132,7 @@ export default function EarnPage() {
   return (
     <main className="mx-auto max-w-5xl space-y-3 px-3 pb-20 pt-6">
       <div className="px-1">
-        <h1 className="font-display text-3xl font-bold">Earn</h1>
+        <h1 className="text-3xl font-medium tracking-tight">Earn</h1>
         <p className="mt-1 text-sm text-muted">
           Provide USDC liquidity to a market vault and earn fees and funding from its traders. {compact(total)} total liquidity.
         </p>

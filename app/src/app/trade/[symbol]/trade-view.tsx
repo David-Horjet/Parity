@@ -31,8 +31,8 @@ export function TradeView({ symbol }: { symbol: string }) {
   if (!market || !markets) {
     return (
       <div className="mx-auto grid max-w-[1600px] grid-cols-[minmax(0,1fr)] gap-3 p-3 lg:grid-cols-[1fr_360px]">
-        <div className="h-[560px] animate-pulse rounded-2xl bg-panel" />
-        <div className="h-[560px] animate-pulse rounded-2xl bg-panel" />
+        <div className="h-[560px] animate-pulse rounded-2xl panel" />
+        <div className="h-[560px] animate-pulse rounded-2xl panel" />
       </div>
     );
   }
@@ -43,7 +43,7 @@ export function TradeView({ symbol }: { symbol: string }) {
   return (
     <main className="mx-auto grid max-w-[1600px] grid-cols-[minmax(0,1fr)] gap-3 p-3 lg:grid-cols-[minmax(0,1fr)_360px]">
       <section className="flex min-w-0 flex-col gap-3">
-        <div className="flex flex-col gap-3 rounded-2xl border border-line bg-panel/70 p-2 md:flex-row md:items-center">
+        <div className="flex flex-col gap-3 rounded-2xl panel p-2 md:flex-row md:items-center">
           <MarketSelector markets={markets} current={market} />
           <div className="hidden h-8 w-px bg-line md:block" />
           <div className="min-w-0 flex-1">
@@ -58,7 +58,7 @@ export function TradeView({ symbol }: { symbol: string }) {
             PreStocks <HugeiconsIcon icon={ArrowUpRight01Icon} size={12} />
           </a>
         </div>
-        <div className="h-[440px] overflow-hidden rounded-2xl border border-line bg-panel/70 lg:h-[520px]">
+        <div className="h-[440px] overflow-hidden rounded-2xl panel lg:h-[520px]">
           <PriceChart
             symbol={symbol}
             livePrice={fromRaw(market.price)}
@@ -66,19 +66,19 @@ export function TradeView({ symbol }: { symbol: string }) {
             liquidation={focus?.liquidation}
           />
         </div>
-        <div className="hidden overflow-hidden rounded-2xl border border-line bg-panel/70 lg:block">
+        <div className="hidden overflow-hidden rounded-2xl panel lg:block">
           <PositionsTabs positions={positions} address={address} />
         </div>
       </section>
-      <aside className="h-fit rounded-2xl border border-line bg-panel/70 lg:sticky lg:top-[4.25rem]">
+      <aside className="h-fit rounded-2xl panel lg:sticky lg:top-[4.25rem]">
         <TradePanel market={market} positions={raw} />
         <div className="border-t border-line p-4">
           <p className="text-xs uppercase tracking-wider text-dim">About</p>
-          <p className="mt-1 font-display text-lg font-semibold">{market.name}</p>
+          <p className="mt-1 text-lg font-medium">{market.name}</p>
           <p className="mt-1 text-xs leading-relaxed text-muted">{market.description}</p>
         </div>
       </aside>
-      <div className="overflow-hidden rounded-2xl border border-line bg-panel/70 lg:hidden">
+      <div className="overflow-hidden rounded-2xl panel lg:hidden">
         <PositionsTabs positions={positions} address={address} />
       </div>
     </main>

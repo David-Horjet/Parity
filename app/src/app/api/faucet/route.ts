@@ -17,9 +17,27 @@ import { db, error, faucetKeypair, json } from "@/lib/server";
 const USDC_AMOUNT = 10_000n * 1_000_000n;
 const SOL_TOP_UP = 0.05 * LAMPORTS_PER_SOL;
 const SOL_THRESHOLD = 0.02 * LAMPORTS_PER_SOL;
-const COOLDOWN_MS = 30 * 60_000;
+const COOLDOWN_MS = 24 * 60 * 60_000;
 
-/** Devnet only: test USDC plus a little SOL for fees. */
+function nextClaimAt(claimedAt: string | undefined): number | null {
+  if (!claimedAt) return null;
+  const at = Date.parse(claimedAt) + COOLDOWN_MS;
+  return at > Date.now() ? at : null;
+}
+
+/** When the wallet can claim again; null means now. */
+export async function GET(req: Request) {
+  const wallet = new URL(req.url).searchParams.get("wallet") ?? "";
+  try {
+    new PublicKey(wallet);
+  } catch {
+    return error("invalid wallet");
+  }
+  const { data } = await db().from("faucet_claims").select("claimed_at").eq("wallet", wallet).maybeSingle();
+  return json({ nextClaimAt: nextClaimAt(data?.claimed_at) });
+}
+
+/** Devnet only: test USDC plus a little SOL for fees, once per 24h per wallet. */
 export async function POST(req: Request) {
   const { wallet } = (await req.json().catch(() => ({}))) as { wallet?: string };
   let owner: PublicKey;
@@ -31,9 +49,11 @@ export async function POST(req: Request) {
 
   const claims = db().from("faucet_claims");
   const { data: last } = await claims.select("claimed_at,claims").eq("wallet", owner.toBase58()).maybeSingle();
-  if (last && Date.now() - Date.parse(last.claimed_at) < COOLDOWN_MS) {
-    const mins = Math.ceil((COOLDOWN_MS - (Date.now() - Date.parse(last.claimed_at))) / 60_000);
-    return error(`Faucet cooldown: try again in ${mins} min`, 429);
+  const next = nextClaimAt(last?.claimed_at);
+  if (next) {
+    const hours = Math.floor((next - Date.now()) / 3_600_000);
+    const mins = Math.ceil(((next - Date.now()) % 3_600_000) / 60_000);
+    return error(`Already claimed today. Try again in ${hours ? `${hours}h ` : ""}${mins}m`, 429);
   }
 
   const conn = getConnection();

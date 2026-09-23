@@ -84,9 +84,11 @@ export function TradePanel({ market, positions }: { market: MarketDTO; positions
   const accent = side === "long" ? "var(--color-long)" : "var(--color-short)";
   const liqDistance = liq > 0n && priceRaw > 0n ? Number(liq) / Number(priceRaw) - 1 : null;
 
+  const needsFaucet = connected && usdc === 0n && faucet.available;
+
   const submit = async () => {
     if (!connected) return login();
-    if (usdc === 0n) return faucet.claim();
+    if (needsFaucet) return faucet.claim();
     if (problem) return;
     const sig = await open(market, side, marginRaw, quote.size);
     if (sig) setMarginInput("");
@@ -94,14 +96,14 @@ export function TradePanel({ market, positions }: { market: MarketDTO; positions
 
   const cta = !connected
     ? "Connect wallet"
-    : usdc === 0n
+    : needsFaucet
       ? "Get test USDC"
       : problem ?? `${side === "long" ? "Long" : "Short"} ${market.symbol}`;
   const busy = pending?.startsWith(`open:${market.symbol}`) || faucet.loading;
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <div className="relative grid grid-cols-2 rounded-xl bg-panel p-1">
+      <div className="relative grid grid-cols-2 rounded-xl bg-panel-2 p-1">
         <motion.span
           className="absolute inset-y-1 w-[calc(50%-4px)] rounded-lg"
           style={{ background: side === "long" ? "rgb(47 224 162 / 0.16)" : "rgb(255 93 125 / 0.16)" }}
@@ -133,7 +135,7 @@ export function TradePanel({ market, positions }: { market: MarketDTO; positions
             Balance {usd(fromRaw(usdc))}
           </button>
         </div>
-        <label className="flex items-center gap-2 rounded-xl border border-line bg-panel px-3 py-2.5 focus-within:border-line-strong">
+        <label className="flex items-center gap-2 rounded-xl border border-line bg-panel-2 px-3 py-2.5 focus-within:border-line-strong">
           <input
             type="number"
             inputMode="decimal"
@@ -175,7 +177,7 @@ export function TradePanel({ market, positions }: { market: MarketDTO; positions
         </div>
       </div>
 
-      <div className="rounded-xl border border-line bg-panel/60 px-3 py-2">
+      <div className="rounded-xl border border-line bg-panel-2/50 px-3 py-2">
         <Row label="Position size">{usd(fromRaw(quote.size))}</Row>
         <Row label="Entry price" hint="Oracle price now; fills within 1% slippage">{price(fromRaw(priceRaw))}</Row>
         <Row label="Liquidation price" hint="Where equity falls to maintenance margin">
@@ -196,9 +198,9 @@ export function TradePanel({ market, positions }: { market: MarketDTO; positions
       <motion.button
         whileTap={{ scale: 0.98 }}
         onClick={submit}
-        disabled={busy || (connected && usdc > 0n && !!problem)}
+        disabled={busy || (connected && !needsFaucet && !!problem)}
         className="flex h-12 items-center justify-center gap-2 rounded-xl text-sm font-bold text-bg transition disabled:cursor-not-allowed disabled:opacity-50"
-        style={{ background: !connected || usdc === 0n ? "var(--color-accent)" : accent }}
+        style={{ background: !connected || needsFaucet ? "var(--color-accent)" : accent }}
       >
         {busy && <HugeiconsIcon icon={Loading03Icon} size={16} className="animate-spin" />}
         {cta}

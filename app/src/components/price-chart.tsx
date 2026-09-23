@@ -42,14 +42,18 @@ export function PriceChart({
       autoSize: true,
       layout: {
         background: { type: ColorType.Solid, color: "transparent" },
-        textColor: "#8f99cc",
+        textColor: "#a3a3a3",
         fontFamily: "var(--font-roboto)",
         attributionLogo: false,
       },
-      grid: { vertLines: { color: "rgba(140,160,255,0.05)" }, horzLines: { color: "rgba(140,160,255,0.05)" } },
-      rightPriceScale: { borderColor: "rgba(140,160,255,0.12)" },
-      timeScale: { borderColor: "rgba(140,160,255,0.12)", timeVisible: true },
-      crosshair: { mode: CrosshairMode.Normal },
+      grid: { vertLines: { color: "rgba(255,255,255,0.035)" }, horzLines: { color: "rgba(255,255,255,0.035)" } },
+      rightPriceScale: { borderColor: "rgba(255,255,255,0.08)" },
+      timeScale: { borderColor: "rgba(255,255,255,0.08)", timeVisible: true },
+      crosshair: {
+        mode: CrosshairMode.Normal,
+        vertLine: { color: "#737373", labelBackgroundColor: "#2f2f2f" },
+        horzLine: { color: "#737373", labelBackgroundColor: "#2f2f2f" },
+      },
     });
     series.current = c.addSeries(CandlestickSeries, {
       upColor: "#2fe0a2",
@@ -94,7 +98,7 @@ export function PriceChart({
     if (!s) return;
     lines.current.forEach((l) => s.removePriceLine(l));
     lines.current = [];
-    if (entry) lines.current.push(s.createPriceLine({ price: entry, color: "#7c8cff", lineStyle: LineStyle.Dashed, lineWidth: 1, title: "Entry" }));
+    if (entry) lines.current.push(s.createPriceLine({ price: entry, color: "#d4d4d4", lineStyle: LineStyle.Dashed, lineWidth: 1, title: "Entry" }));
     if (liquidation) lines.current.push(s.createPriceLine({ price: liquidation, color: "#ffc15c", lineStyle: LineStyle.Dashed, lineWidth: 1, title: "Liq." }));
   }, [entry, liquidation, candles]);
 
